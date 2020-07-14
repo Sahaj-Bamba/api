@@ -11,11 +11,19 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+import json
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+CONF = os.path.join(BASE_DIR, "conf")
+
+databases = ""
+with open(os.path.join(CONF, "database.conf")) as f:
+    databases = json.load(f)
 
 
+
+FILE_UPLOAD_PERMISSIONS = 0o644
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
@@ -25,8 +33,11 @@ SECRET_KEY = 'dhhnzie=qrrbn$qfv2a4x-=&&hg_)!5-=z=y^^j+3$mi!())l$'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["127.0.0.1", "localhost", "api.sahajbamba.me"]
 
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
+# Can declare aome global variables here.
 
 # Application definition
 
@@ -54,7 +65,7 @@ ROOT_URLCONF = 'api.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': os.path.dirname(os.path.dirname('templates')),
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -73,6 +84,7 @@ WSGI_APPLICATION = 'api.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
+# DATABASES = databases
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -115,6 +127,15 @@ USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/3.0/howto/static-files/
+# https://docs.djangoproject.com/en/1.10/howto/static-files/
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),
+]
 
+STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'static_cdn')
 STATIC_URL = '/static/'
+
+
+# MEDIA_ROOT = '/var/www/html/academic_new/photos/'
+# MEDIA_URL = '/images/'
+
