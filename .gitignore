@@ -238,5 +238,6 @@ dmypy.json
 
 myenv/
 .conf
+.idea/
 
 # Sahaj git ignore end
